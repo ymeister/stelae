@@ -1,7 +1,7 @@
 { system }:
 
-let nix-thunk = import ../../deps/nix-thunk {};
+let nix-haskell = import ./thunk { inherit system; };
+    nix-thunk = (nix-haskell {}).config.importing.nix-thunk;
     src = nix-thunk.thunkSource ./thunk;
-    nix-haskell = import src { inherit system; };
 
-in nix-haskell // { inherit src; }
+in nix-haskell // { inherit src nix-thunk; }
