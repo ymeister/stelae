@@ -1,0 +1,10 @@
+[submodule "plugins/obelisk/src"]
+	path = plugins/obelisk/src
+	url = https://github.com/obsidiansystems/obelisk.git
+[submodule "plugins/nix-haskell/src"]
+	path = plugins/nix-haskell/src
+	url = https://github.com/ymeister/nix-haskell.git
+[submodule "plugins/reflex-dom/src"]
+	path = plugins/reflex-dom/src
+	url = https://github.com/ymeister/reflex-dom.git
+	branch = ghc(js)-9.10
