@@ -1,5 +1,5 @@
 { system ? builtins.currentSystem }:
 
-let nix-thunk = import ./plugins/nix-thunk { inherit system; };
+let nix-thunk = import ./components/nix-thunk { inherit system; };
 
-in nix-thunk.mapSubdirectories (p: import p { inherit system; }) ./plugins
+in nix-thunk.mapSubdirectories (p: import p { inherit system; }) ./components
