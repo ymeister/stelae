@@ -2,6 +2,8 @@
 
 let src = ./src;
 
+    module = import ./module.nix;
+
     nix-haskell = import ../nix-haskell { inherit system; };
 
     obelisk-asset-manifest = nix-haskell {
@@ -15,19 +17,8 @@ let src = ./src;
 in {
   inherit src obelisk-asset-manifest obelisk-asset-manifest-generate;
 
-  extraCabalProject = builtins.readFile (src + "/lib/cabal.project.config");
-
-  overrides = [
-    ({ config, lib, pkgs, ... }:
-      let optionalPackages = lib.filterAttrs (name: _: config.packages ? ${name});
-      in {
-        packages = optionalPackages {
-          cli-git.components.library.build-tools = with pkgs; [ git ];
-          cli-nix.components.library.build-tools = with pkgs; [ nix nix-prefetch-git ];
-          obelisk-command.components.library.build-tools = with pkgs; [ ghcid jre openssh ];
-        };
-      })
-  ];
+  inherit module;
+  inherit (module {}) extraCabalProject overrides;
 
   source-repository-packages = {
     obelisk-asset-manifest = src + "/lib/asset/manifest";
