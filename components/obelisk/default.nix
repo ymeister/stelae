@@ -15,6 +15,8 @@ let src = ./src;
 in {
   inherit src obelisk-asset-manifest obelisk-asset-manifest-generate;
 
+  extraCabalProject = builtins.readFile (src + "/lib/cabal.project.config");
+
   overrides = [
     ({ config, lib, pkgs, ... }:
       let optionalPackages = lib.filterAttrs (name: _: config.packages ? ${name});
