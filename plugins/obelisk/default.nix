@@ -15,6 +15,18 @@ let src = ./src;
 in {
   inherit src obelisk-asset-manifest obelisk-asset-manifest-generate;
 
+  overrides = [
+    ({ config, lib, pkgs, ... }:
+      let optionalPackages = lib.filterAttrs (name: _: config.packages ? ${name});
+      in {
+        packages = optionalPackages {
+          cli-git.components.library.build-tools = with pkgs; [ git ];
+          cli-nix.components.library.build-tools = with pkgs; [ nix nix-prefetch-git ];
+          obelisk-command.components.library.build-tools = with pkgs; [ ghcid jre openssh ];
+        };
+      })
+  ];
+
   source-repository-packages = {
     obelisk-asset-manifest = src + "/lib/asset/manifest";
     obelisk-asset-serve-snap = src + "/lib/asset/serve-snap";
